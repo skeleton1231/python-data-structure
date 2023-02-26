@@ -34,7 +34,7 @@ class SeqList:
             return False
 
     def insert(self, position: int, value: int) -> bool:
-        if len(self) > self._capacity:
+        if len(self) >= self._capacity:
             return False
         return self._data.insert(position, value)
 
@@ -44,13 +44,16 @@ class SeqList:
 
 
 def test_seqlist():
-    array = SeqList(10)
+    array = SeqList(5)
     array.insert(0, 3)
     array.insert(0, 4)
     array.insert(1, 5)
     array.insert(3, 9)
     array.insert(3, 10)
-    array.insert(0, 100)
+    assert array.insert(0, 100) is False
+    assert len(array) == 5
+    assert array.find(1) == 5
+    assert array.delete(4) is True
     array.print_all()
 
 
