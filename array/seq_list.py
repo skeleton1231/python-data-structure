@@ -34,6 +34,12 @@ class SeqList:
             return False
 
     def insert(self, position: int, value: int) -> bool:
+        """
+            When the insert() method is called on a list, 
+            it automatically shifts all the elements at and after the specified index one position to the right, 
+            and inserts the new element at the specified index. 
+            As a result, the length of the list will increase by 1.
+        """
         if len(self) >= self._capacity:
             return False
         return self._data.insert(position, value)
