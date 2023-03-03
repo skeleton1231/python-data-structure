@@ -75,3 +75,126 @@ class SingleLinkedList(object):
             node = node.next_node
             pos += 1
         return node
+    
+    def insert_to_head(self, value):
+        """在链表的头部插入一个存储value数值的Node节点.
+        参数:
+            value:将要存储的数据
+        """
+        node = Node(value)
+        node.next_node = self.__head
+        #头结点变为node
+        self.__head = node
+    
+    def insert_after(self, node, value):
+        """在链表的某个指定Node节点之后插入一个存储value数据的Node节点.
+        参数:
+            node:指定的一个Node节点
+            value:将要存储在新Node节点中的数据
+        """
+        if node is None:  # 如果指定在一个空节点之后插入数据节点，则什么都不做
+            return
+
+        new_node = Node(value)
+        new_node.next_node = node.next
+        node.next = new_node
+    
+    def insert_before(self, node, value):
+        """在链表的某个指定Node节点之前插入一个存储value数据的Node节点.
+        参数:
+            node:指定的一个Node节点
+            value:将要存储在新的Node节点中的数据
+        """
+        if (node is None) or (self.__head is None):  # 如果指定在一个空节点之前或者空链表之前插入数据节点，则什么都不做
+            return
+
+        if node == self.__head:  # 如果是在链表头之前插入数据节点，则直接插入
+            self.insert_to_head(value)
+            return
+
+        new_node = Node(value)
+        pro = self.__head
+        not_found = False  # 如果在整个链表中都没有找到指定插入的Node节点，则该标记量设置为True
+        while pro.next_node != node:  # 寻找指定Node之前的一个Node
+            if pro.next_node is None:  # 如果已经到了链表的最后一个节点，则表明该链表中没有找到指定插入的Node节点
+                not_found = True
+                break
+            else:
+                pro = pro.next_node
+        if not not_found:
+            pro.next_node = new_node
+            new_node.next_node = node
+
+    def delete_by_node(self, node):
+        """在链表中删除指定Node的节点.
+        参数:
+            node:指定的Node节点
+        """
+        if self.__head is None:  # 如果链表是空的，则什么都不做
+            return
+
+        if node == self.__head:  # 如果指定删除的Node节点是链表的头节点
+            self.__head = node.next_node
+            return
+
+        pro = self.__head
+        not_found = False  # 如果在整个链表中都没有找到指定删除的Node节点，则该标记量设置为True
+        while pro.next_node != node:
+            if pro.next_node is None:  # 如果已经到链表的最后一个节点，则表明该链表中没有找到指定删除的Node节点
+                not_found = True
+                break
+            else:
+                pro = pro.next_node
+        if not not_found:
+            pro.next_node = node.next_node
+
+    def delete_by_value(self, value):
+        """在链表中删除指定存储数据的Node节点.
+        参数:
+            value:指定的存储数据
+        """
+        if self.__head is None:  # 如果链表是空的，则什么都不做
+            return
+
+        if self.__head.data == value:  # 如果链表的头Node节点就是指定删除的Node节点
+            self.__head = self.__head.next_node
+
+        pro = self.__head
+        node = self.__head.next_node
+        not_found = False
+        while node.data != value:
+            if node.next_node is None:  # 如果已经到链表的最后一个节点，则表明该链表中没有找到执行Value值的Node节点
+                not_found = True
+                break
+            else:
+                pro = node
+                node = node.next_node
+        if not_found is False:
+            pro.next_node = node.next_node
+
+    def delete_last_n_node(self, n):
+        """删除链表中倒数第N个节点.
+        主体思路：
+            设置快、慢两个指针，快指针先行，慢指针不动；当快指针跨了N步以后，快、慢指针同时往链表尾部移动，
+            当快指针到达链表尾部的时候，慢指针所指向的就是链表的倒数第N个节点
+        参数:
+            n:需要删除的倒数第N个序数
+        """
+        fast = self.__head
+        slow = self.__head
+        step = 0
+
+        while step <= n:
+            fast = fast.next_node
+            step += 1
+
+        while fast.next_node is not None:
+            tmp = slow
+            fast = fast.next_node
+            slow = slow.next_node
+
+        tmp.next_node = slow.next_node
+
+
+
+
