@@ -37,12 +37,12 @@ class Node(object):
         return self.__next
     
     @next_node.setter
-    def next_node(self, data):
+    def next_node(self, next_node: Type['Node']):
         """Node节点next指针的修改方法.
         参数:
             next:新的下一个Node节点的引用
         """
-        self.__data =data
+        self.__next = next_node
 
 class SingleLinkedList(object):
     """单向链表"""
@@ -86,7 +86,7 @@ class SingleLinkedList(object):
         #头结点变为node
         self.__head = node
     
-    def insert_after(self, node, value):
+    def insert_after(self, node: Node, value):
         """在链表的某个指定Node节点之后插入一个存储value数据的Node节点.
         参数:
             node:指定的一个Node节点
@@ -96,10 +96,10 @@ class SingleLinkedList(object):
             return
 
         new_node = Node(value)
-        new_node.next_node = node.next
-        node.next = new_node
+        new_node.next_node = node.next_node
+        node.next_node = new_node
     
-    def insert_before(self, node, value):
+    def insert_before(self, node: Node, value):
         """在链表的某个指定Node节点之前插入一个存储value数据的Node节点.
         参数:
             node:指定的一个Node节点
@@ -125,7 +125,7 @@ class SingleLinkedList(object):
             pro.next_node = new_node
             new_node.next_node = node
 
-    def delete_by_node(self, node):
+    def delete_by_node(self, node: Node):
         """在链表中删除指定Node的节点.
         参数:
             node:指定的Node节点
@@ -194,6 +194,26 @@ class SingleLinkedList(object):
             slow = slow.next_node
 
         tmp.next_node = slow.next_node
+
+    def create_node(self, value):
+        """创建一个存储value值的Node节点.
+        参数:
+            value:将要存储在Node节点中的数据
+        返回:
+            一个新的Node节点
+        """
+        return Node(value)
+
+    def print_all(self):
+        """打印当前链表所有节点数据."""
+        pos = self.__head
+        if pos is None:
+            print("当前链表还没有数据")
+            return
+        while pos.next_node is not None:
+            print(str(pos.data) + " --> ", end="")
+            pos = pos.next_node
+        print(str(pos.data))
 
 
 
