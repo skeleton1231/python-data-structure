@@ -19,10 +19,12 @@ Output: [[0,5,0],
          [6,1,0],
          [2,0,8]]
 """
+from typing import List
+
 class Solution:
     def restoreMatrix(self, rowSum: List[int], colSum: List[int]) -> List[List[int]]:
         m, n = len(rowSum), len(colSum)
-        mat = [[0] * n for _ in range(m)] # 创建二维数组
+        mat = [[0] * n for _ in range(m)]
         i = j = 0  # 从左上角出发
         while i < m and j < n:
             rs, cs = rowSum[i], colSum[j]
@@ -34,4 +36,20 @@ class Solution:
                 mat[i][j] = cs  # 去掉第 j 列
                 rowSum[i] -= cs
                 j += 1  # 往右走
+            
+            # 打印每次更新后的 rowSum 和 colSum
+            print("mat:")
+            for row in mat:
+                print(row)
+            print("move to:", i, j)
+            print("rowSum:", rowSum)
+            print("colSum:", colSum)
+            print("--------------------")
+            
         return mat
+
+# 示例
+rowSum = [5, 7, 10]
+colSum = [8, 6, 8]
+s = Solution()
+s.restoreMatrix(rowSum, colSum)
